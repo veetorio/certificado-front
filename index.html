@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Modern Login</title>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Inter', sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at top left, #2563eb 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #1e40af 0%, transparent 35%),
+        linear-gradient(135deg, #020617, #0f172a);
+      position:relative;
+    }
+
+    /* Background Blur Balls */
+
+    .bg-ball{
+      position:absolute;
+      border-radius:50%;
+      filter:blur(80px);
+      opacity:.4;
+      z-index:0;
+    }
+
+    .ball-1{
+      width:300px;
+      height:300px;
+      background:#3b82f6;
+      top:-80px;
+      left:-50px;
+    }
+
+    .ball-2{
+      width:250px;
+      height:250px;
+      background:#1d4ed8;
+      bottom:-80px;
+      right:-50px;
+    }
+
+    /* Card */
+
+    .login-card{
+      width:420px;
+      padding:42px;
+      border-radius:30px;
+
+      background:rgba(255,255,255,0.08);
+
+      border:1px solid rgba(255,255,255,0.1);
+
+      backdrop-filter:blur(18px);
+
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.35),
+        inset 0 1px 1px rgba(255,255,255,0.08);
+
+      position:relative;
+      z-index:1;
+    }
+
+    .logo{
+      width:70px;
+      height:70px;
+      margin:0 auto 25px;
+
+      border-radius:20px;
+
+      background:linear-gradient(135deg,#2563eb,#60a5fa);
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      box-shadow:0 10px 30px rgba(37,99,235,.4);
+    }
+
+    .logo i{
+      font-size:1.8rem;
+      color:white;
+    }
+
+    h1{
+      color:white;
+      text-align:center;
+      font-size:2rem;
+      margin-bottom:10px;
+      font-weight:700;
+    }
+
+    .subtitle{
+      text-align:center;
+      color:#94a3b8;
+      margin-bottom:35px;
+      font-size:.95rem;
+    }
+
+    .input-group{
+      margin-bottom:22px;
+    }
+
+    .input-wrapper{
+      position:relative;
+    }
+
+    .input-wrapper i{
+      position:absolute;
+      top:50%;
+      left:18px;
+      transform:translateY(-50%);
+      color:#94a3b8;
+      font-size:.95rem;
+    }
+
+    .input-wrapper input{
+      width:100%;
+      height:58px;
+
+      border:none;
+      outline:none;
+
+      border-radius:18px;
+
+      background:rgba(255,255,255,0.06);
+
+      border:1px solid rgba(255,255,255,0.08);
+
+      padding:0 18px 0 50px;
+
+      color:white;
+      font-size:1rem;
+
+      transition:.25s;
+    }
+
+    .input-wrapper input::placeholder{
+      color:#94a3b8;
+    }
+
+    .input-wrapper input:focus{
+      border-color:#3b82f6;
+      background:rgba(255,255,255,0.09);
+
+      box-shadow:0 0 0 4px rgba(59,130,246,.15);
+    }
+
+    .toggle-password{
+      position:absolute;
+      right:18px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#94a3b8;
+      cursor:pointer;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      margin-bottom:28px;
+
+      font-size:.9rem;
+    }
+
+    .remember{
+      display:flex;
+      align-items:center;
+      gap:8px;
+
+      color:#cbd5e1;
+    }
+
+    .remember input{
+      accent-color:#2563eb;
+    }
+
+    .forgot{
+      color:#60a5fa;
+      text-decoration:none;
+    }
+
+    .login-btn{
+      width:100%;
+      height:58px;
+
+      border:none;
+      border-radius:18px;
+
+      background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+      color:white;
+      font-size:1rem;
+      font-weight:600;
+
+      cursor:pointer;
+
+      transition:.3s;
+
+      box-shadow:0 10px 25px rgba(37,99,235,.35);
+    }
+
+    .login-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 15px 35px rgba(37,99,235,.45);
+    }
+
+    .divider{
+      display:flex;
+      align-items:center;
+      gap:15px;
+
+      margin:30px 0;
+      color:#64748b;
+      font-size:.9rem;
+    }
+
+    .divider::before,
+    .divider::after{
+      content:'';
+      flex:1;
+      height:1px;
+      background:rgba(255,255,255,.08);
+    }
+
+    .socials{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .social-btn{
+      height:52px;
+
+      border:none;
+      border-radius:16px;
+
+      background:rgba(255,255,255,.06);
+
+      border:1px solid rgba(255,255,255,.08);
+
+      color:white;
+
+      cursor:pointer;
+
+      transition:.25s;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+
+      font-weight:500;
+    }
+
+    .social-btn:hover{
+      background:rgba(255,255,255,.1);
+      transform:translateY(-2px);
+    }
+
+    .bottom-text{
+      margin-top:28px;
+      text-align:center;
+      color:#94a3b8;
+      font-size:.92rem;
+    }
+
+    .bottom-text a{
+      color:#60a5fa;
+      text-decoration:none;
+      font-weight:600;
+    }
+
+    .error{
+      color:#fca5a5;
+      font-size:.85rem;
+      margin-top:10px;
+      padding-left:5px;
+    }
+
+    @media(max-width:500px){
+
+      .login-card{
+        width:92%;
+        padding:32px 24px;
+        border-radius:24px;
+      }
+
+      h1{
+        font-size:1.7rem;
+      }
+
+      .socials{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-ball ball-1"></div>
+  <div class="bg-ball ball-2"></div>
+
+  <div class="login-card" x-data="loginForm()">
+
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+
+    <h1>Bem-vindo</h1>
+
+    <p class="subtitle">
+      Faça login para acessar sua conta
+    </p>
+
+    <form @submit.prevent="submitForm">
+
+      <!-- Email -->
+
+      <div class="input-group">
+
+        <div class="input-wrapper">
+
+          <i class="fa-solid fa-envelope"></i>
+
+          <input
+            type="email"
+            placeholder="Digite seu email"
+            x-model="email"
+          />
+
+        </div>
+
+        <p class="error" x-show="emailError">
+          Informe um email válido
+        </p>
+
+      </div>
+
+      <!-- Password -->
+
+      <div class="input-group">
+
+        <div class="input-wrapper">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input
+            placeholder="Digite seu nome"
+            x-model="nome"
+          />
+
+        </div>
+
+        <p class="error" x-show="passwordError">
+          A senha deve ter pelo menos 6 caracteres
+        </p>
+
+      </div>
+
+      <div class="actions">
+
+
+      </div>
+
+      <button class="login-btn">
+        Entrar
+      </button>
+
+    </form>
+
+  </div>
+
+  <script>
+    const endpoint = 'http://localhost:3000/participantes';
+    const postParticipant = async ({ nome,email }) => {
+      try {
+        const participant = { nome, email };
+        if (!nome || !email) {
+          throw new Error('Nome e email são obrigatórios');
+        }
+        if (!/\S+@\S+\.\S+/.test(email)) {
+          throw new Error('Email inválido');
+        }
+        if (nome.length < 2) {
+          throw new Error('O nome deve conter pelo menos 2 caracteres');
+        }
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(participant),
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Success:', data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };  
+    function loginForm(ev) {
+      return {
+
+        email: '',
+        nome : '',
+
+        showPassword: false,
+
+        emailError: false,
+        passwordError: false,
+
+        submitForm() {
+          console.log('Email:', this.email);
+          console.log('Email:', this.email);
+          const send = async () => {
+            await postParticipant({ nome: this.nome, email: this.email });
+          }
+          send();
+
+
+           
+           
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
