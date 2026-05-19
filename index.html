@@ -15,6 +15,7 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   />
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -424,12 +425,22 @@
           },
           body: JSON.stringify(participant),
         });
-        if (!response.ok) {
+        if (await !response.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json();
-        console.log('Success:', data);
+        Swal.fire({
+          title: 'Sucesso!',
+          text: 'Participante cadastrado com sucesso.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
       } catch (error) {
+        Swal.fire({
+          title: 'Erro!',
+          text: 'Ocorreu um erro ao cadastrar o participante.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
         console.error('Error:', error);
       }
     };  
